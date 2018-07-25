@@ -3,10 +3,12 @@ from django.http import HttpResponse
 
 
 def index(request):
-    return HttpResponse("<h1>Rango says hey there partner!</h1>"
-                        "<br><a href='/rango/about/'> About </a>")
+    context_dict = {'boldmessage': "Crunchy, creamy, cookie, candy, cupcake!"}
+
+    return render(request, 'rango/index.html', context=context_dict)
 
 
 def about(request):
-    return HttpResponse("<h1>Rango says this is the ABOUT page!</h1>"
-                        "<br><a href='/rango/'> Index </a>")
+    context_dict = {'name': "Chris!"}
+
+    return render(request, 'rango/about.html', context=context_dict)

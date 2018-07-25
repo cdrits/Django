@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Rango About Page</title>
+</head>
+<body>
+   <img src="{% static "images/rango.jpg" %}" alt="Picture of Rango" height='350' width='450'/>
+
+
+<div>
+   This tutorial has been put together by {{ name }}<br><br>
+
+</div>
+
+<div>
+
+    <a href="/rango/">Rango Home</a><br><br>
+
+</div>
+
+<div>
+
+    <img src="{{MEDIA_URL}}cat.jpg" height='100' width='100'
+    alt="DojoCat image"> </img>
+
+
+
+</div>
+</body>
+</html>

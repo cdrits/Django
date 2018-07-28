@@ -3,7 +3,7 @@ from .models import Page, Category
 
 
 # This is a helper class that allows to create Django Form from an existing model (here: Category)
-class CategoryForm:
+class CategoryForm(forms.ModelForm):
     # Provide fields for the users to fill
     name = forms.CharField(max_length=128, help_text="Please enter the category name.")
     # Hidden fields, the user won't see them but it will still be initiated to 0 & False
@@ -30,3 +30,22 @@ class PageForm(forms.ModelForm):
         model = Page
         # We can specify which fields are in the form with excluding those that we don't want
         exclude = ('category',)
+
+    # In case user input is not correct we override the clean() method in ModelForm.
+    # This method is called before saving form data to a new model instance,
+    # so here we can verify and fix "bad" user input.
+    # Check the value retrieved from each field of the form, try to fix it and reassign it
+    # to the cleaned_data dictionary.
+    # ALWAYS return the reference to the cleaned_data dictionary in the end or changes won't be applied
+    def clean(self):
+        # .clean_data is a dictionary attribute of ModelForm
+        cleaned_data = self.cleaned_data
+        # We can take data from the cleaned_data dictionary by using the get() method
+        url = cleaned_data.get('url')
+
+        # If the url is not empty and doesn't start with 'http://', add 'http://' to it
+        if url and not url.startswith('http://'):
+            url = 'http://' + url
+            cleaned_data['url'] = url
+
+            return cleaned_data

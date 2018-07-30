@@ -19,8 +19,11 @@
 		<div>
 			<ul>
 				<li><a href="{% url 'rango:add_category' %}">Add a New Category</a></li>
-				<li><a href="{% url 'rango:about' %}">About</a></li>
 				<li><a href="{% url 'rango:index' %}">Index</a></li>
+				<a href="{% url 'rango:about' %}" title="About">
+					 <img src="{{MEDIA_URL}}cat.jpg" height='100' width='100'
+    					alt="DojoCat image">
+				</a>
 			</ul>
 		</div>
 	</body>

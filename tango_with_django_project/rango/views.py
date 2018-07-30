@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from .models import Category, Page
-from .forms import CategoryForm, PageForm
+from .forms import CategoryForm, PageForm, UserForm, UserProfileForm
 
 
 def index(request):
@@ -99,3 +99,49 @@ def add_page(request, category_name_slug):
     context_dict = {'form':form, 'category': category}
 
     return render(request, 'rango/add_page.html', context_dict)
+
+
+def register(request):
+    registered = False
+
+    if request.method == 'POST':
+        # Try to get data from both UserForm and UserProfileForm
+        user_form = UserForm(data=request.POST)
+        profile_form = UserProfileForm(data=request.POST)
+
+        # If both are valid
+        if user_form.is_valid() and profile_form.is_valid():
+            # Save the user's form data to the db
+            user = user_form.save()
+            # Hash the password
+            user.set_password(user.password)
+            # Update the user object
+            user.save()
+
+            # UserProfile instance. Once we have created
+            # a User instance, we reference it in the UserProfile instance (here)
+            profile = profile_form.save(commit=False)
+            profile.user = user
+
+            # If user provided profile picture,
+            # get it from the form and put it in the UserProfile model
+            if 'picture' in request.FILES:
+                profile.picture = request.FILES['picture']
+
+            profile.save()
+
+            # Update registered variable
+            registered = True
+
+        else:
+            print(user_form.errors, profile_form.errors)
+
+    # Not a HTTP POST, so we render our form using two ModelForm instances.
+    # These forms will be blank, ready for user input.
+    else:
+        user_form = UserForm()
+        profile_form = UserProfileForm()
+
+    return render(request, 'rango/register.html', {'user_form': user_form,
+                                                   'profile_form': profile_form,
+                                                   'registered': registered})

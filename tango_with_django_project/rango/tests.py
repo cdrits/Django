@@ -77,7 +77,7 @@ class ModelTests(TestCase):
 
     def get_category(self, name):
 
-        from rango.models import Category
+        from .models import Category
         try:
             cat = Category.objects.get(name=name)
         except Category.DoesNotExist:

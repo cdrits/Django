@@ -2,8 +2,10 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from .models import Category, Page
 from .forms import CategoryForm, PageForm, UserForm, UserProfileForm
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
+from django.contrib.auth.decorators import login_required
+
 
 
 def index(request):
@@ -182,3 +184,14 @@ def user_login(request):
         # No context variables to pass to the template system, hence the
         # blank dictionary object...
         return render(request, 'rango/user_login.html', {})
+
+
+@login_required
+def restricted(request):
+    return HttpResponse("Since you are logged in you can see this text")
+
+
+@login_required
+def user_logout(request):
+    logout(request)
+    return HttpResponseRedirect(reverse('rango:index'))

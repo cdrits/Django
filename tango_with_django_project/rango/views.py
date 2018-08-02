@@ -7,7 +7,6 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 
 
-
 def index(request):
     context_dict = {}
 
@@ -55,6 +54,7 @@ def show_category(request, category_name_slug):
 #   2) saving from data (provided by the user) to the associated model
 #      and rendering a page
 #   3) provide error info - if any
+@login_required
 def add_category(request):
     # Create a CategoryForm variable
     form = CategoryForm()
@@ -79,7 +79,7 @@ def add_category(request):
 
     return render(request, 'rango/add_category.html', {'form': form})
 
-
+@login_required
 def add_page(request, category_name_slug):
     try:
         category = Category.objects.get(slug=category_name_slug)
@@ -188,7 +188,8 @@ def user_login(request):
 
 @login_required
 def restricted(request):
-    return HttpResponse("Since you are logged in you can see this text")
+    context_dict = {}
+    return render(request, 'rango/restricted.html')
 
 
 @login_required

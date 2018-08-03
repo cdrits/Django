@@ -17,7 +17,18 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
 STATIC_DIR = os.path.join(BASE_DIR, 'static')
 MEDIA_DIR = os.path.join(BASE_DIR, 'media')
-LOGIN_URL = '/rango/login/'
+
+# Registration app variables
+# If true, users can register
+REGISTRATION_OPEN = True
+# One-week activation window
+ACCOUNT_ACTIVATION_DAYS = 7
+# User will be automatically logged in
+REGISTRATION_AUTO_LOGIN = True
+# The page the user is redirected to if they are not logged in
+# and try to access page that needs authentication
+LOGIN_REDIRECT_URL = '/rango'
+LOGIN_URL = '/accounts/login/'
 
 
 # Quick-start development settings - unsuitable for production
@@ -35,13 +46,14 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'rango',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rango',
+    'registration'
 ]
 
 MIDDLEWARE = [
@@ -102,10 +114,11 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
     },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-        'OPTIONS': {'min_length: 6'}
-    },
+    # The minimum lenght option does not work with registration app
+    # {
+    #     'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+    #     'OPTIONS': {'min_length: 6'}
+    # },
     {
         'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
     },

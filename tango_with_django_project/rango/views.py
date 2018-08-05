@@ -32,6 +32,7 @@ def about(request):
         print("TEST COOKIE WORKED!")
         request.session.delete_test_cookie()
     context_dict = {}
+    context_dict ['name'] = 'Chris'
     context_dict['visits'] = request.session['visits']
 
     response = render(request, 'rango/about.html', context=context_dict)

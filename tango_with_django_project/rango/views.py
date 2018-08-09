@@ -32,7 +32,7 @@ def about(request):
     if request.session.test_cookie_worked():
         print("TEST COOKIE WORKED!")
         request.session.delete_test_cookie()
-    context_dict = {}
+    context_dict = []
     context_dict ['name'] = 'Chris'
     context_dict['visits'] = request.session['visits']
 

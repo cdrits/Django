@@ -115,6 +115,8 @@ def add_page(request, category_name_slug):
                 # probably better to use a redirect here.
             return show_category(request, category_name_slug)
         else:
+            print(form.cleaned_data)
+
             print(form.errors)
 
     context_dict = {'form':form, 'category': category}

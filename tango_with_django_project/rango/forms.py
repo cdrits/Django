@@ -45,7 +45,7 @@ class PageForm(forms.ModelForm):
         url = cleaned_data.get('url')
 
         # If the url is not empty and doesn't start with 'http://', add 'http://' to it
-        if url and not url.startswith('http://'):
+        if url and not url.startswith('http://' or 'https://'):
             url = 'http://' + url
             cleaned_data['url'] = url
 
